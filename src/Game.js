@@ -12,9 +12,35 @@ class Game {
     return { started, board };
   }
 
-  toggleCell(index, board){
-    let cell = board[index].value === 'on' ? 'off' : 'on';
-    board[index].value = cell;
+  toggleCell(index, board, ship){
+    let gridSize = 16;
+    let positionUpdate = 0; 
+    let ship = {shipLength: 3, direction: "V"};
+    let row = Math.ceil(index/gridSize);
+    let shipIsPlacable = false;
+    console.log(row)
+    if ( ship.direction == "V" && row > gridSize - ship.shipLength) {
+      alert("ship doesnt fit");
+    } else if (ship.direction == "H" && index > gridSize * row - ship.shipLength) { 
+      alert("Ship doesnt fit");
+    } else {
+      shipIsPlacable = true;
+    }
+
+    if (shipIsPlacable == true) {  
+      for (var i=0; i<ship.shipLength; i++){
+        if (ship.direction === "V"){ 
+          positionUpdate = index + i*gridSize;
+          console.log("index", index, "positionUpdate", positionUpdate, "i", i, " i*rowlength", i*gridSize);
+        } else {
+          positionUpdate = index + i;
+        }
+        let cell = board[positionUpdate].value === 'on' ? 'off' : 'on';
+        board[positionUpdate].value = cell;
+      }
+    }
+
+    
     return board;
   }
 
